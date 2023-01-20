@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "103089092865",
+    "project_id": "mobilnobankarstvov2",
+    "storage_bucket": "mobilnobankarstvov2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103089092865:android:4d980068721d45bf148300",
+        "android_client_info": {
+          "package_name": "com.example.mobilnobankrastvov2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "103089092865-jicnm4e07k0sh733854o5okncm9e2pus.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzOIfZL77xUnD7CdeuX8zwYwVm9wiqaVw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "103089092865-jicnm4e07k0sh733854o5okncm9e2pus.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
