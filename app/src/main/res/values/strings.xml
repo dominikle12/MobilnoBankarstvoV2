@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MobilnoBankrastvoV2</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="firstName">First name:</string>
+    <string name="lastName">Last name:</string>
+    <string name="fundsAvailable">Funds available:</string>
 </resources>
