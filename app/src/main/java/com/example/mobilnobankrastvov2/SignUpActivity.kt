@@ -11,6 +11,7 @@ import com.example.mobilnobankrastvov2.databinding.ActivitySignUpBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlin.random.Random
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
@@ -20,6 +21,7 @@ class SignUpActivity : AppCompatActivity() {
     private var password = ""
     private var firstName = ""
     private var lastName = ""
+    private var iban = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
@@ -33,6 +35,7 @@ class SignUpActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         binding.registerButton.setOnClickListener {
+            iban = "HR" + String.format("%06d", Random.nextLong(9999999999))
             validateData()
         }
     }
@@ -66,7 +69,8 @@ class SignUpActivity : AppCompatActivity() {
                     "funds" to 1000,
                     "email" to firebaseUser.email,
                     "firstName" to firstName,
-                    "lastName" to lastName))
+                    "lastName" to lastName,
+                    "iban" to iban))
                 startActivity(Intent(this, MainActivity::class.java))
             }
             .addOnFailureListener{e ->

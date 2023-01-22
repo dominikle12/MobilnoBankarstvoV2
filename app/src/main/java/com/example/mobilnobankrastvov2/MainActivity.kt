@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.widget.EditText
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.mobilnobankrastvov2.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -14,51 +15,72 @@ import com.google.firebase.firestore.auth.User
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var toggle: ActionBarDrawerToggle
+    val TAG = "MainActivity"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar!!.hide()
 
-        binding.apply {
-            toggle= ActionBarDrawerToggle(this@MainActivity, drawerLayout, R.string.open, R.string.close)
-            drawerLayout.addDrawerListener(toggle)
-            toggle.syncState()
-
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            navView.setNavigationItemSelectedListener {
-                when(it.itemId){
-                    R.id.firstItem->{
-
-                    }
-                    R.id.secondItem->{
-
-                    }
-                    R.id.logOutItem->{
-                        firebaseAuth.signOut()
-                        checkUser()
-                    }
-                }
-                true
-            }
-        }
         firebaseAuth = FirebaseAuth.getInstance()
         checkUser()
 
-        //val userInformation = getDataFromUser(firebaseAuth.currentUser!!.uid)
+
+        /*Firebase.firestore.collection("users").document(firebaseAuth.currentUser!!.uid).get()
+            .addOnCompleteListener { task ->
+                if(task.isSuccessful){
+                    val user = task.result.toObject(UserInformation::class.java)!!
+                    Log.d("MainActivity", "Uspjesno. prezime: ${user.lastName}")
+                    binding.firstNameText.text = user.firstName
+                    binding.lastNameText.text = user.lastName
+                    binding.fundsAvailableText.text = user.funds.toString() + "€"
+                    binding.ibanText.text = user.iban
+                }else{
+                    Log.w("MainActivity", "Error")
+                }
+            }*/
+
         Firebase.firestore.collection("users").document(firebaseAuth.currentUser!!.uid)
-            .get()
-            .addOnSuccessListener {result ->
-                val userMan = result.toObject(UserInformation::class.java)
-                binding.firstNameText.text = userMan?.firstName
+            .addSnapshotListener{snapshot, e ->
+                if(e != null){
+                    Log.w(TAG, "Listen failed", e)
+                    return@addSnapshotListener
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    Log.d(TAG, "Current data: ${snapshot.data}")
+                    val user = snapshot.toObject(UserInformation::class.java)!!
+                    Log.d("MainActivity", "Uspjesno. prezime: ${user.lastName}")
+                    binding.firstNameText.text = user.firstName
+                    binding.lastNameText.text = user.lastName
+                    binding.fundsAvailableText.text = user.funds.toString() + "€"
+                    binding.ibanText.text = user.iban
+                } else {
+                    Log.d(TAG, "Current data: null")
+                }
             }
 
-        /*binding.lastNameText.text = userInformation.lastName
-        binding.fundsAvailableText.text = userInformation.funds.toString()*/
+        binding.logOutItem.setOnClickListener{
+            firebaseAuth.signOut()
+            checkUser()
+        }
+
+        binding.payItem.setOnClickListener{
+            intent = Intent(this, PayActivity::class.java)
+            intent.putExtra("senderIban", binding.ibanText.text.toString())
+            finish()
+            startActivity(intent)
+
+        }
+
+
+
 
     }
 
@@ -72,23 +94,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(toggle.onOptionsItemSelected(item)){
-            true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-    private fun getDataFromUser(uid: String):UserInformation{
+
+    private fun getDataFromUser(uid: String): UserInformation{
         var user = UserInformation()
         Firebase.firestore.collection("users").document(uid).get()
-            .addOnSuccessListener { result ->
-                    user = result.toObject(UserInformation::class.java)!!
-            }
-            .addOnFailureListener{e->
-                Log.w("MainActivity", "Error")
+            .addOnCompleteListener { task ->
+                    if(task.isSuccessful){
+                        user = task.result.toObject(UserInformation::class.java)!!
+                        Log.d("MainActivity", "Uspjesno. prezime: ${user.lastName}")
+                        binding.firstNameText.text = user.firstName
+                        binding.lastNameText.text = user.lastName
+                        binding.fundsAvailableText.text = user.funds.toString()
+                    }else{
+                        Log.w("MainActivity", "Error")
+                    }
             }
         return user
     }
+
+
+
 
 
 
