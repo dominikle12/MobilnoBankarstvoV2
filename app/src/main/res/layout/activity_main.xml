@@ -13,16 +13,16 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="376dp"
-        android:layout_height="199dp"
+        android:id="@+id/constraintLayout"
+        android:layout_width="379dp"
+        android:layout_height="159dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/funds_card"
 
+        android:background="@drawable/funds_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ibanText"
 
-        >
+        app:layout_constraintTop_toBottomOf="@+id/ibanText">
 
         <TextView
             android:id="@+id/fundsAvailableText"
@@ -181,6 +181,37 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/walletImage" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/transacitonRecyclerView1"
+        android:layout_width="338dp"
+        android:layout_height="323dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/payItem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/item_in_recyclerview" />
+
+    <Button
+        android:id="@+id/sentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="112dp"
+        android:text="Sent"
+        app:layout_constraintBottom_toTopOf="@+id/transacitonRecyclerView1"
+        app:layout_constraintEnd_toStartOf="@+id/recievedButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <Button
+        android:id="@+id/recievedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recieved"
+        app:layout_constraintBottom_toTopOf="@+id/transacitonRecyclerView1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/sentButton"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
