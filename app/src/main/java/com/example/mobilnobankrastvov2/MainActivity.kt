@@ -1,32 +1,18 @@
 package com.example.mobilnobankrastvov2
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobilnobankrastvov2.databinding.ActivityMainBinding
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserInfo
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.auth.User
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
-import kotlinx.coroutines.tasks.await
-import com.example.mobilnobankrastvov2.MainActivity.TransactionViewHolder as TransactionViewHolder1
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -52,9 +38,9 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        transactionRecyclerView = findViewById(R.id.transacitonRecyclerView1)
+        //transactionRecyclerView = findViewById(R.id.transactionRecyclerView2)
         //transactionRecyclerView.layoutManager = LinearLayoutManager(this)
-        transactionRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+        //transactionRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
 
         /*Firebase.firestore.collection("users").document(firebaseAuth.currentUser!!.uid).get()
             .addOnCompleteListener { task ->
@@ -83,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d("MainActivity", "Uspjesno. prezime: ${user.lastName}")
                     binding.firstNameText.text = user.firstName
                     binding.lastNameText.text = user.lastName
-                    binding.fundsAvailableText.text = user.funds.toString() + "€"
+                    binding.fundsAvailableText.text = user.funds.toString()
                     binding.ibanText.text = user.iban
                     iban = user.iban!!
                     Log.d(TAG, "USER IBAN: $iban")
@@ -108,19 +94,25 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        binding.sentButton.setOnClickListener {
+        /*binding.sentButton.setOnClickListener {
             showTransactions(iban, true)
         }
 
         binding.recievedButton.setOnClickListener {
             showTransactions(iban, false)
-        }
+        }*/
 
+        binding.addFundsItem.setOnClickListener {
+            intent = Intent(this, AddFundsActivity::class.java)
+            intent.putExtra("currentFunds", binding.fundsAvailableText.text)
+            finish()
+            startActivity(intent)
+        }
 
 
     }
 
-    private fun showTransactions(iban: String, sender:Boolean){
+    /*private fun showTransactions(iban: String, sender:Boolean){
 
         db = FirebaseFirestore.getInstance()
         val transactionList = ArrayList<TransactionInfo>()
@@ -157,7 +149,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
+    */
     private fun checkUser() {
         val firebaseUser = firebaseAuth.currentUser
         if(firebaseUser != null){

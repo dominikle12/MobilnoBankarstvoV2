@@ -25,6 +25,17 @@
         app:layout_constraintTop_toBottomOf="@+id/ibanText">
 
         <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:text="€"
+            android:textSize="48sp"
+            app:layout_constraintStart_toEndOf="@+id/fundsAvailableText"
+            app:layout_constraintTop_toBottomOf="@+id/fundsAvailableLabel" />
+
+        <TextView
             android:id="@+id/fundsAvailableText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,6 +68,7 @@
             app:layout_constraintStart_toEndOf="@+id/fundsAvailableLabel"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/money" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
@@ -182,36 +194,20 @@
             app:layout_constraintTop_toBottomOf="@+id/walletImage" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/transacitonRecyclerView1"
-        android:layout_width="338dp"
-        android:layout_height="323dp"
-        android:layout_marginBottom="16dp"
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="com.example.mobilnobankrastvov2.TransactionFragment"
+        android:layout_width="0dp"
+        android:layout_height="349dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toTopOf="@+id/payItem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/item_in_recyclerview" />
-
-    <Button
-        android:id="@+id/sentButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="112dp"
-        android:text="Sent"
-        app:layout_constraintBottom_toTopOf="@+id/transacitonRecyclerView1"
-        app:layout_constraintEnd_toStartOf="@+id/recievedButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
-
-    <Button
-        android:id="@+id/recievedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Recieved"
-        app:layout_constraintBottom_toTopOf="@+id/transacitonRecyclerView1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/sentButton"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        tools:layout="@layout/fragment_transaction" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
